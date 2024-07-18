@@ -1,0 +1,17 @@
+spring:
+
+  application:
+    name: "Veterinary"
+
+  datasource:
+    url: jdbc:h2:mem:vet
+    username: admin
+    password: admin
+    driverClassName: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  H2:
+    console:
+      enabled: true
