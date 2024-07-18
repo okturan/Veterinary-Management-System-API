@@ -8,6 +8,7 @@ import java.util.Optional;
 import dev.patika.veterinary.dtos.request.AnimalRequestDto;
 import dev.patika.veterinary.dtos.response.AnimalResponseDto;
 import dev.patika.veterinary.entities.Animal;
+import dev.patika.veterinary.entities.Customer;
 import dev.patika.veterinary.mappers.AnimalMapper;
 import dev.patika.veterinary.repositories.AnimalRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +24,12 @@ public class AnimalService implements IService<Animal, AnimalResponseDto, Animal
     @Override
     public AnimalResponseDto save(Animal entity) {
         Animal savedAnimal = animalRepository.save(entity);
+        return animalMapper.animalToAnimalResponseDto(savedAnimal);
+    }
+
+    public AnimalResponseDto createAndAssignToCustomer(Animal animal, Customer customer) {
+        animal.setCustomer(customer);
+        Animal savedAnimal = animalRepository.save(animal);
         return animalMapper.animalToAnimalResponseDto(savedAnimal);
     }
 

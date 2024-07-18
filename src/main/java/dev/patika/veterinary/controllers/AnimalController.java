@@ -48,13 +48,13 @@ public class AnimalController {
     }
 
     @PutMapping("/{id}")
-    public AnimalResponseDto update(@PathVariable int id, @Valid @RequestBody AnimalRequestDto animal) {
+    public AnimalResponseDto update(@PathVariable long id, @Valid @RequestBody AnimalRequestDto animal) {
         return animalService.update(id, animal);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable long id) {
         animalService.deleteById(id);
     }
 }

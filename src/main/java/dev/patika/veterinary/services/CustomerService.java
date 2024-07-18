@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import dev.patika.veterinary.dtos.request.AnimalRequestDto;
 import dev.patika.veterinary.dtos.request.CustomerRequestDto;
+import dev.patika.veterinary.dtos.response.AnimalResponseDto;
 import dev.patika.veterinary.dtos.response.CustomerResponseDto;
+import dev.patika.veterinary.entities.Animal;
 import dev.patika.veterinary.entities.Customer;
 import dev.patika.veterinary.mappers.CustomerMapper;
 import dev.patika.veterinary.repositories.CustomerRepository;
@@ -19,11 +22,20 @@ public class CustomerService implements IService<Customer, CustomerResponseDto, 
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final AnimalService animalService;
 
     @Override
     public CustomerResponseDto save(Customer entity) {
         Customer savedCustomer = customerRepository.save(entity);
         return customerMapper.customerToCustomerResponseDto(savedCustomer);
+    }
+
+    public AnimalResponseDto addAnimalToCustomer(long customerId, Animal animal) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (optionalCustomer.isEmpty()) {
+            throw new EntityNotFoundException("Customer not found with id: " + customerId);
+        }
+        return animalService.createAndAssignToCustomer(animal, optionalCustomer.get());
     }
 
     @Override

@@ -1,9 +1,12 @@
 package dev.patika.veterinary.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -33,5 +36,8 @@ public class Customer {
 
     @NotNull
     private String city;
+
+    @OneToMany
+    private List<Animal> animals;
 
 }

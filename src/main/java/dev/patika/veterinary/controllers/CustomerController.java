@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import dev.patika.veterinary.dtos.request.CustomerRequestDto;
+import dev.patika.veterinary.dtos.response.AnimalResponseDto;
 import dev.patika.veterinary.dtos.response.CustomerResponseDto;
+import dev.patika.veterinary.entities.Animal;
 import dev.patika.veterinary.entities.Customer;
+import dev.patika.veterinary.services.AnimalService;
 import dev.patika.veterinary.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +30,18 @@ import lombok.RequiredArgsConstructor;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final AnimalService animalService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerResponseDto create(@Valid @RequestBody Customer customer) {
         return customerService.save(customer);
+    }
+
+    @PostMapping("/{id}/animals")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AnimalResponseDto addAnimalToCustomer(@PathVariable long id, @Valid @RequestBody Animal animal) {
+        return customerService.addAnimalToCustomer(id, animal);
     }
 
     @GetMapping("/{id}")
@@ -48,13 +58,13 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public CustomerResponseDto update(@PathVariable int id, @Valid @RequestBody CustomerRequestDto customer) {
+    public CustomerResponseDto update(@PathVariable long id, @Valid @RequestBody CustomerRequestDto customer) {
         return customerService.update(id, customer);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable long id) {
         customerService.deleteById(id);
     }
 }

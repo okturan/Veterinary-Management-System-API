@@ -15,4 +15,5 @@ public class AnimalRequestDto {
     private String gender;
     private String colour;
     private LocalDate dateOfBirth;
+
 }
