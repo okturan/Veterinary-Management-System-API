@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import dev.patika.veterinary.dtos.request.AnimalRequestDto;
-import dev.patika.veterinary.dtos.response.AnimalResponseDto;
 import dev.patika.veterinary.entities.Animal;
 import dev.patika.veterinary.entities.Customer;
+import dev.patika.veterinary.entities.dtos.request.AnimalRequestDto;
+import dev.patika.veterinary.entities.dtos.response.AnimalResponseDto;
 import dev.patika.veterinary.mappers.AnimalMapper;
 import dev.patika.veterinary.repositories.AnimalRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,8 +22,8 @@ public class AnimalService implements IService<Animal, AnimalResponseDto, Animal
     private final AnimalMapper animalMapper;
 
     @Override
-    public AnimalResponseDto save(Animal entity) {
-        Animal savedAnimal = animalRepository.save(entity);
+    public AnimalResponseDto save(Animal animal) {
+        Animal savedAnimal = animalRepository.save(animal);
         return animalMapper.animalToAnimalResponseDto(savedAnimal);
     }
 

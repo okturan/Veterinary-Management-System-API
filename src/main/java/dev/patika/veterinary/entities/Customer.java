@@ -37,7 +37,7 @@ public class Customer {
     @NotNull
     private String city;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<Animal> animals;
 
 }

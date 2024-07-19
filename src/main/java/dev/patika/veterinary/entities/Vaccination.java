@@ -1,35 +1,34 @@
 package dev.patika.veterinary.entities;
 
-import java.time.Period;
-import java.util.List;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Entity
-@Table
-public class Vaccine {
+public class Vaccination {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
-    private String name;
-    @NotNull
-    private String code;
-    @NotNull
-    private Period efficacyPeriod;
+    @ManyToOne
+    private Animal animal;
 
-    @OneToMany(mappedBy = "vaccine")
-    private List<Vaccination> vaccinations;
+    @ManyToOne
+    private Vaccine vaccine;
+
+    @NotNull
+    private LocalDate vaccinationDate;
+
+    @NotNull
+    private LocalDate nextDueDate;
 }

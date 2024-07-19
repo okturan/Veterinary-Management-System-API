@@ -5,12 +5,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import dev.patika.veterinary.dtos.request.AnimalRequestDto;
-import dev.patika.veterinary.dtos.request.CustomerRequestDto;
-import dev.patika.veterinary.dtos.response.AnimalResponseDto;
-import dev.patika.veterinary.dtos.response.CustomerResponseDto;
 import dev.patika.veterinary.entities.Animal;
 import dev.patika.veterinary.entities.Customer;
+import dev.patika.veterinary.entities.dtos.request.CustomerRequestDto;
+import dev.patika.veterinary.entities.dtos.response.AnimalResponseDto;
+import dev.patika.veterinary.entities.dtos.response.CustomerResponseDto;
 import dev.patika.veterinary.mappers.CustomerMapper;
 import dev.patika.veterinary.repositories.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,8 +24,8 @@ public class CustomerService implements IService<Customer, CustomerResponseDto, 
     private final AnimalService animalService;
 
     @Override
-    public CustomerResponseDto save(Customer entity) {
-        Customer savedCustomer = customerRepository.save(entity);
+    public CustomerResponseDto save(Customer customer) {
+        Customer savedCustomer = customerRepository.save(customer);
         return customerMapper.customerToCustomerResponseDto(savedCustomer);
     }
 
@@ -50,16 +49,16 @@ public class CustomerService implements IService<Customer, CustomerResponseDto, 
     @Override
     public List<CustomerResponseDto> findAll() {
         return customerRepository.findAll()
-                               .stream()
-                               .map(customerMapper::customerToCustomerResponseDto)
-                               .toList();
+                                 .stream()
+                                 .map(customerMapper::customerToCustomerResponseDto)
+                                 .toList();
     }
 
     public List<CustomerResponseDto> findByName(String name) {
         return customerRepository.findByNameContainsIgnoreCase(name)
-                               .stream()
-                               .map(customerMapper::customerToCustomerResponseDto)
-                               .toList();
+                                 .stream()
+                                 .map(customerMapper::customerToCustomerResponseDto)
+                                 .toList();
     }
 
     @Override

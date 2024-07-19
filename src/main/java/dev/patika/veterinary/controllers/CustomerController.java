@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import dev.patika.veterinary.dtos.request.CustomerRequestDto;
-import dev.patika.veterinary.dtos.response.AnimalResponseDto;
-import dev.patika.veterinary.dtos.response.CustomerResponseDto;
 import dev.patika.veterinary.entities.Animal;
 import dev.patika.veterinary.entities.Customer;
+import dev.patika.veterinary.entities.dtos.request.CustomerRequestDto;
+import dev.patika.veterinary.entities.dtos.response.AnimalResponseDto;
+import dev.patika.veterinary.entities.dtos.response.CustomerResponseDto;
 import dev.patika.veterinary.services.AnimalService;
 import dev.patika.veterinary.services.CustomerService;
 import jakarta.validation.Valid;
@@ -58,8 +58,10 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public CustomerResponseDto update(@PathVariable long id, @Valid @RequestBody CustomerRequestDto customer) {
-        return customerService.update(id, customer);
+    public CustomerResponseDto update(@PathVariable long id,
+                                      @Valid @RequestBody CustomerRequestDto customerRequestDto)
+    {
+        return customerService.update(id, customerRequestDto);
     }
 
     @DeleteMapping("/{id}")

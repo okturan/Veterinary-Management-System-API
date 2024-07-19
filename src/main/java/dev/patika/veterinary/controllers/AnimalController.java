@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import dev.patika.veterinary.dtos.request.AnimalRequestDto;
-import dev.patika.veterinary.dtos.response.AnimalResponseDto;
 import dev.patika.veterinary.entities.Animal;
+import dev.patika.veterinary.entities.dtos.request.AnimalRequestDto;
+import dev.patika.veterinary.entities.dtos.request.VaccinationRequestDto;
+import dev.patika.veterinary.entities.dtos.response.AnimalResponseDto;
+import dev.patika.veterinary.entities.dtos.response.VaccinationResponseDto;
 import dev.patika.veterinary.services.AnimalService;
+import dev.patika.veterinary.services.VaccinationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -27,11 +30,20 @@ import lombok.RequiredArgsConstructor;
 public class AnimalController {
 
     private final AnimalService animalService;
+    private final VaccinationService vaccinationService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AnimalResponseDto create(@Valid @RequestBody Animal animal) {
         return animalService.save(animal);
+    }
+
+    @PostMapping("/{id}/vaccinations")
+    @ResponseStatus(HttpStatus.CREATED)
+    public VaccinationResponseDto createForAnimal(@PathVariable long id,
+                                                  @Valid @RequestBody VaccinationRequestDto vaccinationRequestDto)
+    {
+        return vaccinationService.saveForAnimal(id, vaccinationRequestDto);
     }
 
     @GetMapping("/{id}")
@@ -47,9 +59,14 @@ public class AnimalController {
         return animalService.findAll();
     }
 
+    @GetMapping("/{id}/vaccinations")
+    public List<VaccinationResponseDto> getByAnimalId(@PathVariable long id) {
+        return vaccinationService.findByAnimalId(id);
+    }
+
     @PutMapping("/{id}")
-    public AnimalResponseDto update(@PathVariable long id, @Valid @RequestBody AnimalRequestDto animal) {
-        return animalService.update(id, animal);
+    public AnimalResponseDto update(@PathVariable long id, @Valid @RequestBody AnimalRequestDto animalRequestDto) {
+        return animalService.update(id, animalRequestDto);
     }
 
     @DeleteMapping("/{id}")

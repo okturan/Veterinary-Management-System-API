@@ -1,12 +1,14 @@
 package dev.patika.veterinary.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -42,5 +44,8 @@ public class Animal {
 
     @ManyToOne
     private Customer customer;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Vaccination> vaccinations;
 
 }
