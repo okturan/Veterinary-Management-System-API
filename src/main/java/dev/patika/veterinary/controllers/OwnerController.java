@@ -15,58 +15,56 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import dev.patika.veterinary.entities.Animal;
-import dev.patika.veterinary.entities.Customer;
-import dev.patika.veterinary.entities.dtos.request.CustomerRequestDto;
+import dev.patika.veterinary.entities.Owner;
+import dev.patika.veterinary.entities.dtos.request.OwnerRequestDto;
 import dev.patika.veterinary.entities.dtos.response.AnimalResponseDto;
-import dev.patika.veterinary.entities.dtos.response.CustomerResponseDto;
-import dev.patika.veterinary.services.AnimalService;
-import dev.patika.veterinary.services.CustomerService;
+import dev.patika.veterinary.entities.dtos.response.OwnerResponseDto;
+import dev.patika.veterinary.services.OwnerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/owners")
 @RequiredArgsConstructor
-public class CustomerController {
+public class OwnerController {
 
-    private final CustomerService customerService;
-    private final AnimalService animalService;
+    private final OwnerService ownerService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerResponseDto create(@Valid @RequestBody Customer customer) {
-        return customerService.save(customer);
+    public OwnerResponseDto create(@Valid @RequestBody Owner owner) {
+        return ownerService.save(owner);
     }
 
     @PostMapping("/{id}/animals")
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimalResponseDto addAnimalToCustomer(@PathVariable long id, @Valid @RequestBody Animal animal) {
-        return customerService.addAnimalToCustomer(id, animal);
+    public AnimalResponseDto addAnimalToOwner(@PathVariable long id, @Valid @RequestBody Animal animal) {
+        return ownerService.addAnimalToOwner(id, animal);
     }
 
     @GetMapping("/{id}")
-    public CustomerResponseDto getById(@PathVariable long id) {
-        return customerService.findById(id);
+    public OwnerResponseDto getById(@PathVariable long id) {
+        return ownerService.findById(id);
     }
 
     @GetMapping
-    public List<CustomerResponseDto> getAll(@RequestParam(required = false) String name) {
+    public List<OwnerResponseDto> getAll(@RequestParam(required = false) String name) {
         if (name != null && !name.isEmpty()) {
-            return customerService.findByName(name);
+            return ownerService.findByName(name);
         }
-        return customerService.findAll();
+        return ownerService.findAll();
     }
 
     @PutMapping("/{id}")
-    public CustomerResponseDto update(@PathVariable long id,
-                                      @Valid @RequestBody CustomerRequestDto customerRequestDto)
+    public OwnerResponseDto update(@PathVariable long id,
+                                   @Valid @RequestBody OwnerRequestDto ownerRequestDto)
     {
-        return customerService.update(id, customerRequestDto);
+        return ownerService.update(id, ownerRequestDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
-        customerService.deleteById(id);
+        ownerService.deleteById(id);
     }
 }

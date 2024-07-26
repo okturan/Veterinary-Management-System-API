@@ -40,10 +40,10 @@ public class AnimalController {
 
     @PostMapping("/{id}/vaccinations")
     @ResponseStatus(HttpStatus.CREATED)
-    public VaccinationResponseDto createForAnimal(@PathVariable long id,
+    public VaccinationResponseDto createVaccinationForAnimal(@PathVariable long id,
                                                   @Valid @RequestBody VaccinationRequestDto vaccinationRequestDto)
     {
-        return vaccinationService.saveForAnimal(id, vaccinationRequestDto);
+        return vaccinationService.saveVaccinationForAnimal(id, vaccinationRequestDto);
     }
 
     @GetMapping("/{id}")
@@ -51,6 +51,7 @@ public class AnimalController {
         return animalService.findById(id);
     }
 
+    // /api/animals?name={name}
     @GetMapping
     public List<AnimalResponseDto> getAll(@RequestParam(required = false) String name) {
         if (name != null && !name.isEmpty()) {

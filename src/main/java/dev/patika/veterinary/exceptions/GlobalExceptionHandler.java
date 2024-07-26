@@ -30,12 +30,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request)
-    {
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+
         Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Entity not found");
+        body.put("timestamp", System.currentTimeMillis());
+        body.put("status", HttpStatus.NOT_FOUND.value());
+        body.put("error", "Entity Not Found");
         body.put("details", ex.getMessage());
+        body.put("path", request.getDescription(false).replace("uri=", ""));
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }

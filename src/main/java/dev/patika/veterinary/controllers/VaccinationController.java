@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import dev.patika.veterinary.entities.Vaccination;
@@ -29,8 +31,8 @@ public class VaccinationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VaccinationResponseDto create(@Valid @RequestBody Vaccination vaccination) {
-        return vaccinationService.save(vaccination);
+    public VaccinationResponseDto create(@Valid @RequestBody VaccinationRequestDto vaccinationRequestDto) {
+        return vaccinationService.save(vaccinationRequestDto);
     }
 
     @GetMapping("/{id}")
@@ -41,6 +43,11 @@ public class VaccinationController {
     @GetMapping
     public List<VaccinationResponseDto> getAll() {
         return vaccinationService.findAll();
+    }
+
+    @GetMapping("/expiring")
+    public List<VaccinationResponseDto> findExpiring(@RequestParam LocalDate start, LocalDate end) {
+        return vaccinationService.findByNextDueDateBetween(start, end);
     }
 
     @PutMapping("/{id}")

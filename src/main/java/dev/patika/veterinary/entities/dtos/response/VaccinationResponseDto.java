@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 public class VaccinationResponseDto {
     private long id;
-    private AnimalResponseDto animal;
-    private VaccineResponseDto vaccine;
+    private long animalId;
+    private long vaccineId;
     private LocalDate vaccinationDate;
     private LocalDate nextDueDate;
 

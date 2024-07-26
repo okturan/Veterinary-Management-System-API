@@ -20,9 +20,11 @@ public class Vaccination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @ManyToOne
     private Animal animal;
 
+    @NotNull
     @ManyToOne
     private Vaccine vaccine;
 

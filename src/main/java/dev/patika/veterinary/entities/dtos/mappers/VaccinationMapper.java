@@ -1,4 +1,4 @@
-package dev.patika.veterinary.mappers;
+package dev.patika.veterinary.entities.dtos.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,6 +14,8 @@ public interface VaccinationMapper {
 
     VaccinationMapper INSTANCE = Mappers.getMapper(VaccinationMapper.class);
 
+    @Mapping(source = "vaccine.id", target = "vaccineId")
+    @Mapping(source = "animal.id", target = "animalId")
     VaccinationResponseDto vaccinationToVaccinationResponseDto(Vaccination vaccination);
 
     @Mapping(target = "id", ignore = true)
@@ -23,4 +25,10 @@ public interface VaccinationMapper {
     @Mapping(target = "animal", ignore = true)
     Vaccination updateVaccinationFromDto(VaccinationRequestDto vaccinationRequestDto,
                                          @MappingTarget Vaccination vaccination);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "nextDueDate", ignore = true)
+    @Mapping(source = "vaccineId", target = "vaccine.id")
+    @Mapping(source = "animalId", target = "animal.id")
+    Vaccination vaccinationFromDto(VaccinationRequestDto vaccinationRequestDto);
 }

@@ -1,4 +1,4 @@
-package dev.patika.veterinary.mappers;
+package dev.patika.veterinary.entities.dtos.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

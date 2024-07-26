@@ -3,6 +3,7 @@ package dev.patika.veterinary.entities;
 import java.time.Period;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,11 +26,13 @@ public class Vaccine {
 
     @NotNull
     private String name;
+
     @NotNull
     private String code;
+
     @NotNull
     private Period efficacyPeriod;
 
-    @OneToMany(mappedBy = "vaccine")
+    @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vaccination> vaccinations;
 }

@@ -17,11 +17,11 @@ public class AnimalResponseDto {
     private String colour;
     private LocalDate dateOfBirth;
 
-    private InnerCustomerDto customer;
+    private InnerOwnerDto owner;
 
     @Getter
     @Setter
-    public static class InnerCustomerDto {
+    public static class InnerOwnerDto {
         private long id;
         private String name;
         private String phone;

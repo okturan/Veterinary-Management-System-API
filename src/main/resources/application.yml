@@ -1,17 +1,13 @@
 spring:
-
   application:
     name: "Veterinary"
 
   datasource:
-    url: jdbc:h2:mem:vet
-    username: admin
-    password:
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/veterinary_management
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-
-  H2:
-    console:
-      enabled: true
+    hibernate:
+      ddl-auto: create-drop
