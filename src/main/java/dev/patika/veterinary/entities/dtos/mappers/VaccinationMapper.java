@@ -2,7 +2,6 @@ package dev.patika.veterinary.entities.dtos.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 import dev.patika.veterinary.entities.Vaccination;
 import dev.patika.veterinary.entities.dtos.request.VaccinationRequestDto;

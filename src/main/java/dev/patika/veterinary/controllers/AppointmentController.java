@@ -18,7 +18,6 @@ import java.util.List;
 import dev.patika.veterinary.entities.dtos.request.AppointmentRequestDto;
 import dev.patika.veterinary.entities.dtos.response.AppointmentResponseDto;
 import dev.patika.veterinary.services.AppointmentService;
-import dev.patika.veterinary.services.DoctorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -45,17 +44,20 @@ public class AppointmentController {
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) LocalDate endDate,
             @RequestParam(required = false) Long doctorId,
-            @RequestParam(required = false) Long animalId) {
+            @RequestParam(required = false) Long animalId)
+    {
 
         if (startDate != null || endDate != null || doctorId != null || animalId != null) {
-        return appointmentService.findAllWithFilters(startDate, endDate, doctorId, animalId);
+            return appointmentService.findAllWithFilters(startDate, endDate, doctorId, animalId);
         } else {
             return appointmentService.findAll();
         }
     }
 
     @PutMapping("/{id}")
-    public AppointmentResponseDto update(@PathVariable long id, @Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
+    public AppointmentResponseDto update(@PathVariable long id,
+                                         @Valid @RequestBody AppointmentRequestDto appointmentRequestDto)
+    {
         return appointmentService.update(id, appointmentRequestDto);
     }
 
