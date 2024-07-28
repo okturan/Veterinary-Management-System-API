@@ -16,13 +16,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class OwnerService implements IService<Owner, OwnerResponseDto, OwnerRequestDto> {
+public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final OwnerMapper ownerMapper;
     private final AnimalService animalService;
 
-    @Override
     public OwnerResponseDto save(Owner owner) {
         Owner savedOwner = ownerRepository.save(owner);
         return ownerMapper.ownerToOwnerResponseDto(savedOwner);
@@ -34,14 +33,12 @@ public class OwnerService implements IService<Owner, OwnerResponseDto, OwnerRequ
         return animalService.createAndAssignToOwner(animal, owner);
     }
 
-    @Override
     public OwnerResponseDto findById(long id) {
         Owner owner = ownerRepository.findById(id)
                                      .orElseThrow(EntityNotFoundException::new);
         return ownerMapper.ownerToOwnerResponseDto(owner);
     }
 
-    @Override
     public List<OwnerResponseDto> findAll() {
         return ownerRepository.findAll()
                               .stream()
@@ -56,7 +53,6 @@ public class OwnerService implements IService<Owner, OwnerResponseDto, OwnerRequ
                               .toList();
     }
 
-    @Override
     public OwnerResponseDto update(long id, OwnerRequestDto ownerRequestDto) {
         Owner owner = ownerRepository.findById(id)
                                      .orElseThrow(EntityNotFoundException::new);
@@ -64,7 +60,6 @@ public class OwnerService implements IService<Owner, OwnerResponseDto, OwnerRequ
         return ownerMapper.ownerToOwnerResponseDto(ownerRepository.save(mergedOwner));
     }
 
-    @Override
     public void deleteById(long id) {
         ownerRepository.findById(id)
                        .orElseThrow(EntityNotFoundException::new);

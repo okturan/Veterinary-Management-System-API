@@ -1,7 +1,6 @@
 package dev.patika.veterinary.services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,12 +15,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AnimalService implements IService<Animal, AnimalResponseDto, AnimalRequestDto> {
+public class AnimalService {
 
     private final AnimalRepository animalRepository;
     private final AnimalMapper animalMapper;
 
-    @Override
     public AnimalResponseDto save(Animal animal) {
         Animal savedAnimal = animalRepository.save(animal);
         return animalMapper.animalToAnimalResponseDto(savedAnimal);
@@ -33,14 +31,12 @@ public class AnimalService implements IService<Animal, AnimalResponseDto, Animal
         return animalMapper.animalToAnimalResponseDto(savedAnimal);
     }
 
-    @Override
     public AnimalResponseDto findById(long id) {
         Animal animal = animalRepository.findById(id)
                                         .orElseThrow(EntityNotFoundException::new);
         return animalMapper.animalToAnimalResponseDto(animal);
     }
 
-    @Override
     public List<AnimalResponseDto> findAll() {
         return animalRepository.findAll()
                                .stream()
@@ -55,7 +51,6 @@ public class AnimalService implements IService<Animal, AnimalResponseDto, Animal
                                .toList();
     }
 
-    @Override
     public AnimalResponseDto update(long id, AnimalRequestDto animalRequestDto) {
         Animal animal = animalRepository.findById(id)
                                         .orElseThrow(EntityNotFoundException::new);
@@ -63,7 +58,6 @@ public class AnimalService implements IService<Animal, AnimalResponseDto, Animal
         return animalMapper.animalToAnimalResponseDto(animalRepository.save(animal));
     }
 
-    @Override
     public void deleteById(long id) {
         animalRepository.findById(id)
                         .orElseThrow(EntityNotFoundException::new);

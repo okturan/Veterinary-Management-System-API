@@ -14,18 +14,16 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DoctorService implements IService<Doctor, DoctorResponseDto, DoctorRequestDto> {
+public class DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
 
-    @Override
     public DoctorResponseDto save(Doctor doctor) {
         Doctor savedDoctor = doctorRepository.save(doctor);
         return doctorMapper.doctorToDoctorResponseDto(savedDoctor);
     }
 
-    @Override
     public DoctorResponseDto findById(long id) {
         Doctor doctor = doctorRepository.findById(id)
                                         .orElseThrow(EntityNotFoundException::new);
@@ -33,7 +31,6 @@ public class DoctorService implements IService<Doctor, DoctorResponseDto, Doctor
         return doctorMapper.doctorToDoctorResponseDto(doctor);
     }
 
-    @Override
     public List<DoctorResponseDto> findAll() {
         return doctorRepository.findAll()
                                .stream()
@@ -41,7 +38,6 @@ public class DoctorService implements IService<Doctor, DoctorResponseDto, Doctor
                                .toList();
     }
 
-    @Override
     public DoctorResponseDto update(long id, DoctorRequestDto doctorRequestDto) {
         Doctor doctor = doctorRepository.findById(id)
                                         .orElseThrow(EntityNotFoundException::new);
@@ -49,7 +45,6 @@ public class DoctorService implements IService<Doctor, DoctorResponseDto, Doctor
         return doctorMapper.doctorToDoctorResponseDto(doctorRepository.save(mergedDoctor));
     }
 
-    @Override
     public void deleteById(long id) {
         doctorRepository.findById(id)
                         .orElseThrow(EntityNotFoundException::new);

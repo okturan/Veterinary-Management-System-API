@@ -14,25 +14,22 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class VaccineService implements IService<Vaccine, VaccineResponseDto, VaccineRequestDto> {
+public class VaccineService {
 
     private final VaccineRepository vaccineRepository;
     private final VaccineMapper vaccineMapper;
 
-    @Override
     public VaccineResponseDto save(Vaccine vaccine) {
         Vaccine savedVaccine = vaccineRepository.save(vaccine);
         return vaccineMapper.vaccineToVaccineResponseDto(savedVaccine);
     }
 
-    @Override
     public VaccineResponseDto findById(long id) {
         Vaccine vaccine = vaccineRepository.findById(id)
                                            .orElseThrow(EntityNotFoundException::new);
         return vaccineMapper.vaccineToVaccineResponseDto(vaccine);
     }
 
-    @Override
     public List<VaccineResponseDto> findAll() {
         return vaccineRepository.findAll()
                                 .stream()
@@ -47,7 +44,6 @@ public class VaccineService implements IService<Vaccine, VaccineResponseDto, Vac
                                 .toList();
     }
 
-    @Override
     public VaccineResponseDto update(long id, VaccineRequestDto vaccineRequestDto) {
         Vaccine vaccine = vaccineRepository.findById(id)
                                            .orElseThrow(EntityNotFoundException::new);
@@ -56,7 +52,6 @@ public class VaccineService implements IService<Vaccine, VaccineResponseDto, Vac
         return vaccineMapper.vaccineToVaccineResponseDto(vaccineRepository.save(mergedVaccine));
     }
 
-    @Override
     public void deleteById(long id) {
         vaccineRepository.findById(id)
                          .orElseThrow(EntityNotFoundException::new);

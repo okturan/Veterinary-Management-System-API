@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-import dev.patika.veterinary.entities.Animal;
 import dev.patika.veterinary.entities.Availability;
 import dev.patika.veterinary.entities.Doctor;
 

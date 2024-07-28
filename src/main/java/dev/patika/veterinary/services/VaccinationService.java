@@ -1,14 +1,19 @@
 package dev.patika.veterinary.services;
 
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
-import dev.patika.veterinary.entities.*;
+import dev.patika.veterinary.entities.Animal;
+import dev.patika.veterinary.entities.Vaccination;
+import dev.patika.veterinary.entities.Vaccine;
 import dev.patika.veterinary.entities.dtos.mappers.VaccinationMapper;
 import dev.patika.veterinary.entities.dtos.request.VaccinationRequestDto;
 import dev.patika.veterinary.entities.dtos.response.VaccinationResponseDto;
-import dev.patika.veterinary.repositories.*;
+import dev.patika.veterinary.repositories.AnimalRepository;
+import dev.patika.veterinary.repositories.VaccinationRepository;
+import dev.patika.veterinary.repositories.VaccineRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 

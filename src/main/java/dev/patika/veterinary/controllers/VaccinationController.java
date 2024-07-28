@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
-import dev.patika.veterinary.entities.Vaccination;
 import dev.patika.veterinary.entities.dtos.request.VaccinationRequestDto;
 import dev.patika.veterinary.entities.dtos.response.VaccinationResponseDto;
 import dev.patika.veterinary.services.VaccinationService;
