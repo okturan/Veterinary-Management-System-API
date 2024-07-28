@@ -29,11 +29,14 @@ public class AppointmentService {
     private final AppointmentMapper appointmentMapper;
 
     public AppointmentResponseDto save(AppointmentRequestDto appointmentRequestDto) {
-        Doctor doctor = validateAndGetDoctor(appointmentRequestDto.getDoctorId());
+        long animalId = appointmentRequestDto.getAnimalId();
+        long doctorId = appointmentRequestDto.getDoctorId();
+
+        Doctor doctor = validateAndGetDoctor(doctorId);
         validateAppointment(doctor, appointmentRequestDto.getAppointmentDate());
 
-        animalRepository.findById(appointmentRequestDto.getAnimalId())
-                        .orElseThrow(EntityNotFoundException::new);
+        animalRepository.findById(animalId)
+                        .orElseThrow(() -> new EntityNotFoundException("Animal not found with id: " + animalId ));
 
         Appointment appointment = appointmentMapper.appointmentRequestDtoToAppointment(appointmentRequestDto);
         Appointment savedAppointment = appointmentRepository.save(appointment);
@@ -41,7 +44,6 @@ public class AppointmentService {
     }
 
     public AppointmentResponseDto update(long appointmentId, AppointmentRequestDto appointmentRequestDto) {
-        // Retrieve existing appointment
         Appointment existingAppointment = appointmentRepository.findById(appointmentId)
                                                                .orElseThrow(() -> new EntityNotFoundException(
                                                                        "Appointment not found with ID: " +
@@ -65,7 +67,7 @@ public class AppointmentService {
 
     private Doctor validateAndGetDoctor(Long doctorId) {
         return doctorRepository.findById(doctorId)
-                               .orElseThrow(EntityNotFoundException::new);
+                               .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + doctorId));
     }
 
     private void validateAppointment(Doctor doctor, LocalDateTime requestedAppointment) {
@@ -96,7 +98,7 @@ public class AppointmentService {
 
     public AppointmentResponseDto findById(long id) {
         Appointment appointment = appointmentRepository.findById(id)
-                                                       .orElseThrow(EntityNotFoundException::new);
+                                                       .orElseThrow(() -> new EntityNotFoundException("Appointment not found with id: " + id));
         return appointmentMapper.appointmentToAppointmentResponseDto(appointment);
     }
 
@@ -122,7 +124,7 @@ public class AppointmentService {
 
     public void deleteById(long id) {
         appointmentRepository.findById(id)
-                             .orElseThrow(EntityNotFoundException::new);
+                             .orElseThrow(() -> new EntityNotFoundException("Appointment not found with id: " + id));
         appointmentRepository.deleteById(id);
     }
 }

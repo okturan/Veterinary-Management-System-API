@@ -26,7 +26,7 @@ public class VaccineService {
 
     public VaccineResponseDto findById(long id) {
         Vaccine vaccine = vaccineRepository.findById(id)
-                                           .orElseThrow(EntityNotFoundException::new);
+                                           .orElseThrow(() -> new EntityNotFoundException("Vaccine not found with id: " + id));
         return vaccineMapper.vaccineToVaccineResponseDto(vaccine);
     }
 
@@ -46,7 +46,7 @@ public class VaccineService {
 
     public VaccineResponseDto update(long id, VaccineRequestDto vaccineRequestDto) {
         Vaccine vaccine = vaccineRepository.findById(id)
-                                           .orElseThrow(EntityNotFoundException::new);
+                                           .orElseThrow(() -> new EntityNotFoundException("Vaccine not found with id: " + id));
 
         Vaccine mergedVaccine = vaccineMapper.updateVaccineFromDto(vaccineRequestDto, vaccine);
         return vaccineMapper.vaccineToVaccineResponseDto(vaccineRepository.save(mergedVaccine));
@@ -54,7 +54,7 @@ public class VaccineService {
 
     public void deleteById(long id) {
         vaccineRepository.findById(id)
-                         .orElseThrow(EntityNotFoundException::new);
+                         .orElseThrow(() -> new EntityNotFoundException("Vaccine not found with id: " + id));
         vaccineRepository.deleteById(id);
     }
 }

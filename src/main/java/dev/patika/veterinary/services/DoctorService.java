@@ -26,7 +26,7 @@ public class DoctorService {
 
     public DoctorResponseDto findById(long id) {
         Doctor doctor = doctorRepository.findById(id)
-                                        .orElseThrow(EntityNotFoundException::new);
+                                        .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id:" + id));
 
         return doctorMapper.doctorToDoctorResponseDto(doctor);
     }
@@ -40,14 +40,14 @@ public class DoctorService {
 
     public DoctorResponseDto update(long id, DoctorRequestDto doctorRequestDto) {
         Doctor doctor = doctorRepository.findById(id)
-                                        .orElseThrow(EntityNotFoundException::new);
+                                        .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id:" + id));
         Doctor mergedDoctor = doctorMapper.updateDoctorFromDto(doctorRequestDto, doctor);
         return doctorMapper.doctorToDoctorResponseDto(doctorRepository.save(mergedDoctor));
     }
 
     public void deleteById(long id) {
         doctorRepository.findById(id)
-                        .orElseThrow(EntityNotFoundException::new);
+                        .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id:" + id));
         doctorRepository.deleteById(id);
     }
 }

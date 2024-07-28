@@ -29,7 +29,7 @@ public class AvailabilityService {
 
     public AvailabilityResponseDto addAvailabilityToDoctor(long id, AvailabilityRequestDto availabilityRequestDto) {
         Doctor doctor = doctorRepository.findById(id)
-                                        .orElseThrow(EntityNotFoundException::new);
+                                        .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + id));
         availabilityRequestDto.setDoctorId(doctor.getId());
 
         Availability availability = availabilityMapper.availabilityFromDto(availabilityRequestDto);
@@ -38,7 +38,7 @@ public class AvailabilityService {
 
     public AvailabilityResponseDto findById(long id) {
         Availability availability = availabilityRepository.findById(id)
-                                                          .orElseThrow(EntityNotFoundException::new);
+                                                          .orElseThrow(() -> new EntityNotFoundException("Availability not found with: " + id));
 
         return availabilityMapper.availabilityToAvailabilityResponseDto(availability);
     }
@@ -52,7 +52,7 @@ public class AvailabilityService {
 
     public List<AvailabilityResponseDto> findByDoctor(Long doctorId) {
         Doctor doctor = doctorRepository.findById(doctorId)
-                                        .orElseThrow(EntityNotFoundException::new);
+                                        .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + doctorId));
         return availabilityRepository.findByDoctor(doctor)
                                      .stream()
                                      .map(availabilityMapper::availabilityToAvailabilityResponseDto)
@@ -61,7 +61,7 @@ public class AvailabilityService {
 
     public AvailabilityResponseDto update(long id, AvailabilityRequestDto availabilityRequestDto) {
         Availability availability = availabilityRepository.findById(id)
-                                                          .orElseThrow(EntityNotFoundException::new);
+                                                          .orElseThrow(() -> new EntityNotFoundException("Availability not found with id: " + id));
         Availability mergedAvailability = availabilityMapper.updateAvailabilityFromDto(availabilityRequestDto,
                                                                                        availability);
         return availabilityMapper.availabilityToAvailabilityResponseDto(
@@ -70,7 +70,7 @@ public class AvailabilityService {
 
     public void deleteById(long id) {
         availabilityRepository.findById(id)
-                              .orElseThrow(EntityNotFoundException::new);
+                              .orElseThrow(() -> new EntityNotFoundException("Availability not found with id: " + id));
         availabilityRepository.deleteById(id);
     }
 

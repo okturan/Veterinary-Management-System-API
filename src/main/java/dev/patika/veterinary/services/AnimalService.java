@@ -33,7 +33,7 @@ public class AnimalService {
 
     public AnimalResponseDto findById(long id) {
         Animal animal = animalRepository.findById(id)
-                                        .orElseThrow(EntityNotFoundException::new);
+                                        .orElseThrow(() -> new EntityNotFoundException("Animal not found with id: " + id));
         return animalMapper.animalToAnimalResponseDto(animal);
     }
 
@@ -53,14 +53,14 @@ public class AnimalService {
 
     public AnimalResponseDto update(long id, AnimalRequestDto animalRequestDto) {
         Animal animal = animalRepository.findById(id)
-                                        .orElseThrow(EntityNotFoundException::new);
+                                        .orElseThrow(() -> new EntityNotFoundException("Animal not found with id: " + id));
         animalMapper.updateAnimalFromDto(animalRequestDto, animal);
         return animalMapper.animalToAnimalResponseDto(animalRepository.save(animal));
     }
 
     public void deleteById(long id) {
         animalRepository.findById(id)
-                        .orElseThrow(EntityNotFoundException::new);
+                        .orElseThrow(() -> new EntityNotFoundException("Animal not found with id: " + id));
         animalRepository.deleteById(id);
     }
 

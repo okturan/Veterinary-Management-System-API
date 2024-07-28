@@ -29,13 +29,13 @@ public class OwnerService {
 
     public AnimalResponseDto addAnimalToOwner(long ownerId, Animal animal) {
         Owner owner = ownerRepository.findById(ownerId)
-                                     .orElseThrow(EntityNotFoundException::new);
+                                     .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + ownerId));
         return animalService.createAndAssignToOwner(animal, owner);
     }
 
     public OwnerResponseDto findById(long id) {
         Owner owner = ownerRepository.findById(id)
-                                     .orElseThrow(EntityNotFoundException::new);
+                                     .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + id));
         return ownerMapper.ownerToOwnerResponseDto(owner);
     }
 
@@ -55,14 +55,14 @@ public class OwnerService {
 
     public OwnerResponseDto update(long id, OwnerRequestDto ownerRequestDto) {
         Owner owner = ownerRepository.findById(id)
-                                     .orElseThrow(EntityNotFoundException::new);
+                                     .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + id));
         Owner mergedOwner = ownerMapper.updateOwnerFromDto(ownerRequestDto, owner);
         return ownerMapper.ownerToOwnerResponseDto(ownerRepository.save(mergedOwner));
     }
 
     public void deleteById(long id) {
         ownerRepository.findById(id)
-                       .orElseThrow(EntityNotFoundException::new);
+                       .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + id));
         ownerRepository.deleteById(id);
     }
 }
