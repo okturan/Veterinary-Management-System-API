@@ -18,11 +18,5 @@ public interface AppointmentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "doctor.id", source = "doctorId")
     @Mapping(target = "animal.id", source = "animalId")
-    Appointment updateAppointmentFromDto(AppointmentRequestDto appointmentRequestDto,
-                                         @MappingTarget Appointment appointment);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "doctor.id", source = "doctorId")
-    @Mapping(target = "animal.id", source = "animalId")
     Appointment appointmentRequestDtoToAppointment(AppointmentRequestDto appointmentRequestDto);
 }

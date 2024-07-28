@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    private final DoctorService doctorService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

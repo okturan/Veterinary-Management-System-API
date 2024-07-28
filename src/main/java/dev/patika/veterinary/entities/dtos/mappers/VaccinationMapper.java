@@ -16,14 +16,6 @@ public interface VaccinationMapper {
     VaccinationResponseDto vaccinationToVaccinationResponseDto(Vaccination vaccination);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "vaccineId", target = "vaccine.id")
-    @Mapping(target = "vaccinationDate", ignore = true)
-    @Mapping(target = "nextDueDate", ignore = true)
-    @Mapping(target = "animal", ignore = true)
-    Vaccination updateVaccinationFromDto(VaccinationRequestDto vaccinationRequestDto,
-                                         @MappingTarget Vaccination vaccination);
-
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "nextDueDate", ignore = true)
     @Mapping(source = "vaccineId", target = "vaccine.id")
     @Mapping(source = "animalId", target = "animal.id")
