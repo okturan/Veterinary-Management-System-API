@@ -3,11 +3,14 @@ spring:
     name: "Veterinary"
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/veterinary_management
-    username: postgres
-    password: postgres
-    driverClassName: org.postgresql.Driver
+    url: ${VET_DB_URL}
+    username: ${VET_DB_USER}
+    password: ${VET_DB_PASSWORD}
+    driverClassName: ${VET_DB_DRIVER:org.postgresql.Driver}
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: ${VET_DDL_AUTO:validate}
+
+vet:
+  seed-demo-data: ${VET_SEED_DEMO_DATA:false}
