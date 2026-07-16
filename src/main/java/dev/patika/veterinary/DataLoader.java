@@ -1,6 +1,7 @@
 package dev.patika.veterinary;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import dev.patika.veterinary.repositories.VaccineRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
+@ConditionalOnProperty(name = "vet.seed-demo-data", havingValue = "true")
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 

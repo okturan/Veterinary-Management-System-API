@@ -1,39 +1,55 @@
-
-
 # Veterinary Management API
 
-## Overview
-The Veterinary Management API is a backend service designed for managing various aspects of a veterinary clinic.
+[![Test](https://github.com/okturan/Veterinary-Management-System-API/actions/workflows/test.yml/badge.svg)](https://github.com/okturan/Veterinary-Management-System-API/actions/workflows/test.yml)
+[![Java 17](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)](./pom.xml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
+Spring Boot REST API for managing a veterinary clinic's owners, animals, doctors, availability, appointments, vaccines, and vaccination schedules. The service enforces on-the-hour appointment slots, doctor availability, clash prevention, and active-vaccination rules.
+
+## Project status
+
+This is a working local API showcase with an ER diagram and Postman collection; no public deployment is currently verified. GitHub Actions runs the Spring context plus appointment scheduling tests on Java 17 using an isolated in-memory test database.
 
 ## Getting Started
 
 ### Prerequisites
 - **Java 17**
-- **Maven**
+- The included Maven wrapper (`mvnw`)
 - **PostgreSQL**
 
-### Start PostgreSQL Server
-**Create a new db with the following details:**
+### Configure PostgreSQL
 
-```yaml
-    spring:
-      datasource:
-        url: jdbc:postgresql://localhost:5432/veterinary_management
-        username: postgres
-        password: postgres
-  ```
+Create a dedicated local role and database instead of running the application as PostgreSQL's `postgres` superuser:
 
-### Fill Mock Data (*automatic*)
-The application includes a `DataLoader` class that automatically populates the database with mock data upon startup. This class is responsible for creating sample owners, animals, doctors, availabilities, vaccines, and vaccinations, making it easier to test the API without needing to manually enter data.
+```sh
+createuser --host=localhost --username=postgres --pwprompt veterinary_app
+createdb --host=localhost --username=postgres \
+  --owner=veterinary_app veterinary_management
 
-Project is by default set to:
-```yaml
-ddl-auto: create-drop
+cp .env.example .env
+# Set VET_DB_PASSWORD to the password entered above.
+set -a
+source .env
+set +a
 ```
-This ensures each time the application is run there is identical mock data for testing purposes.
 
-## Overview
-This API includes functionalities for managing owners, animals, doctors, appointments, availabilities, vaccines, and vaccinations.
+The application requires `VET_DB_URL`, `VET_DB_USER`, and `VET_DB_PASSWORD`; it has no tracked credential fallback. `VET_DDL_AUTO` defaults to `validate`, so schema changes are never destructive by default.
+
+For a new disposable local database only, set `VET_DDL_AUTO=create` before the first start. Set `VET_SEED_DEMO_DATA=true` only when that empty database should receive the synthetic demo rows from `DataLoader`.
+
+```sh
+./mvnw spring-boot:run
+```
+
+The API starts at `http://localhost:8080/api`.
+
+## Verification
+
+```sh
+./mvnw --batch-mode --no-transfer-progress verify
+```
+
+Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
 
 ## Features
 - **Owner Management**: Create, update, delete, and retrieve owners of pets.
@@ -54,6 +70,9 @@ This API includes functionalities for managing owners, animals, doctors, appoint
 ## Veterinary Clinic Database Schema
 
 ![Veterinary clinic entity-relationship diagram](vet-clinic-erd.png "Entity-relationship diagram for veterinary clinic database")
+
+Original source code and documentation are available under the [MIT License](./LICENSE). The generated local database files under `data/` are intentionally ignored and are not source artifacts.
+
 ## API Endpoints
 ## Base URL
 ```

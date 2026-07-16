@@ -13,19 +13,26 @@
     <artifactId>Veterinary</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Veterinary</name>
-    <description>Veterinary</description>
-    <url/>
+    <description>Spring Boot REST API for veterinary clinic operations and scheduling.</description>
+    <url>https://github.com/okturan/Veterinary-Management-System-API</url>
     <licenses>
-        <license/>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <name>Okan Erturan</name>
+            <url>https://github.com/okturan</url>
+        </developer>
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:https://github.com/okturan/Veterinary-Management-System-API.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/okturan/Veterinary-Management-System-API.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/okturan/Veterinary-Management-System-API</url>
     </scm>
     <properties>
         <java.version>17</java.version>
@@ -75,6 +82,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.5.5.Final</version>
@@ -82,7 +94,7 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.0.Final</version>
+            <version>1.5.5.Final</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
