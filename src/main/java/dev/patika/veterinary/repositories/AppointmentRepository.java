@@ -10,6 +10,8 @@ import java.util.List;
 import dev.patika.veterinary.entities.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+    boolean existsByDoctorIdAndAppointmentDateAndIdNot(long doctorId, LocalDateTime appointmentDate, long excludedId);
+
     @Query("SELECT a FROM Appointment a WHERE " +
            "(COALESCE(:startDate, a.appointmentDate) <= a.appointmentDate) AND " +
            "(COALESCE(:endDate, a.appointmentDate) >= a.appointmentDate) AND " +

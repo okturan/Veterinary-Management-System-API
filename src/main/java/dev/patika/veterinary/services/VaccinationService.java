@@ -1,6 +1,7 @@
 package dev.patika.veterinary.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class VaccinationService {
 
     private final VaccinationRepository vaccinationRepository;
@@ -27,13 +29,15 @@ public class VaccinationService {
     private final VaccinationMapper vaccinationMapper;
 
     public VaccinationResponseDto save(VaccinationRequestDto vaccinationRequestDto) {
+        LocalDate vaccinationDate = requireVaccinationDate(vaccinationRequestDto);
         Animal animal = validateAndFetchAnimal(vaccinationRequestDto.getAnimalId());
         Vaccine vaccine = validateAndFetchVaccine(vaccinationRequestDto.getVaccineId());
 
         validateNewVaccination(animal, vaccine);
 
         Vaccination vaccination = vaccinationMapper.vaccinationFromDto(vaccinationRequestDto);
-        updateVaccinationDetails(vaccination, vaccine, LocalDate.now());
+        vaccination.setAnimal(animal);
+        updateVaccinationDetails(vaccination, vaccine, vaccinationDate);
 
         return saveVaccinationAndConvert(vaccination);
     }
@@ -57,12 +61,13 @@ public class VaccinationService {
     }
 
     public VaccinationResponseDto update(long id, VaccinationRequestDto vaccinationRequestDto) {
+        LocalDate vaccinationDate = requireVaccinationDate(vaccinationRequestDto);
         Vaccination existingVaccination = getVaccinationById(id);
         Vaccine newVaccine = validateAndFetchVaccine(vaccinationRequestDto.getVaccineId());
 
         validateVaccinationUpdate(id, existingVaccination.getAnimal(), newVaccine, existingVaccination.getVaccine());
 
-        updateVaccinationDetails(existingVaccination, newVaccine, vaccinationRequestDto.getVaccinationDate());
+        updateVaccinationDetails(existingVaccination, newVaccine, vaccinationDate);
 
         return saveVaccinationAndConvert(existingVaccination);
     }
@@ -112,10 +117,9 @@ public class VaccinationService {
     }
 
     private void validateNewVaccination(Animal animal, Vaccine vaccine, long excludeVaccinationId) {
-        boolean hasValidVaccination = animal.getVaccinations().stream()
-                                            .filter(v -> v.getId() != excludeVaccinationId)
-                                            .anyMatch(v -> v.getVaccine().getId() == vaccine.getId() &&
-                                                           v.getNextDueDate().isAfter(LocalDate.now()));
+        boolean hasValidVaccination = vaccinationRepository
+                .existsByAnimalIdAndVaccineIdAndNextDueDateAfterAndIdNot(
+                        animal.getId(), vaccine.getId(), LocalDate.now(), excludeVaccinationId);
 
         if (hasValidVaccination) {
             throw new IllegalStateException("A valid vaccination for this vaccine already exists for the animal");
@@ -126,6 +130,13 @@ public class VaccinationService {
         vaccination.setVaccine(vaccine);
         vaccination.setVaccinationDate(vaccinationDate);
         vaccination.setNextDueDate(vaccinationDate.plus(vaccine.getEfficacyPeriod()));
+    }
+
+    private LocalDate requireVaccinationDate(VaccinationRequestDto request) {
+        if (request.getVaccinationDate() == null) {
+            throw new IllegalArgumentException("Vaccination date is required");
+        }
+        return request.getVaccinationDate();
     }
 
     private VaccinationResponseDto saveVaccinationAndConvert(Vaccination vaccination) {

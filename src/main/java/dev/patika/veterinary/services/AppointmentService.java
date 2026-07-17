@@ -1,6 +1,7 @@
 package dev.patika.veterinary.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
@@ -33,7 +35,7 @@ public class AppointmentService {
         long doctorId = appointmentRequestDto.getDoctorId();
 
         Doctor doctor = validateAndGetDoctor(doctorId);
-        validateAppointment(doctor, appointmentRequestDto.getAppointmentDate());
+        validateAppointment(doctor, appointmentRequestDto.getAppointmentDate(), null);
 
         animalRepository.findById(animalId)
                         .orElseThrow(() -> new EntityNotFoundException("Animal not found with id: " + animalId ));
@@ -51,7 +53,7 @@ public class AppointmentService {
 
         Doctor doctor = validateAndGetDoctor(appointmentRequestDto.getDoctorId());
 
-        validateAppointment(doctor, appointmentRequestDto.getAppointmentDate());
+        validateAppointment(doctor, appointmentRequestDto.getAppointmentDate(), appointmentId);
 
         Animal animal = animalRepository.findById(appointmentRequestDto.getAnimalId())
                                         .orElseThrow(() -> new EntityNotFoundException(
@@ -70,12 +72,7 @@ public class AppointmentService {
                                .orElseThrow(() -> new EntityNotFoundException("Doctor not found with id: " + doctorId));
     }
 
-    private void validateAppointment(Doctor doctor, LocalDateTime requestedAppointment) {
-        List<LocalDateTime> appointmentDates = doctor.getAppointments()
-                                                     .stream()
-                                                     .map(Appointment::getAppointmentDate)
-                                                     .toList();
-
+    private void validateAppointment(Doctor doctor, LocalDateTime requestedAppointment, Long excludedAppointmentId) {
         List<LocalDate> availabilityDates = doctor.getAvailabilities()
                                                   .stream()
                                                   .map(Availability::getDate)
@@ -85,7 +82,9 @@ public class AppointmentService {
             throw new IllegalStateException("Appointments can only be scheduled on the hour.");
         }
 
-        boolean notClashing = !appointmentDates.contains(requestedAppointment);
+        long excludedId = excludedAppointmentId == null ? -1 : excludedAppointmentId;
+        boolean notClashing = !appointmentRepository.existsByDoctorIdAndAppointmentDateAndIdNot(
+                doctor.getId(), requestedAppointment, excludedId);
         boolean isAvailable = availabilityDates.contains(requestedAppointment.toLocalDate());
 
         if (!notClashing) {

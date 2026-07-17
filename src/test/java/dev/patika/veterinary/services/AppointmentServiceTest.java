@@ -57,6 +57,7 @@ class AppointmentServiceTest {
         availability.setDate(availableDate);
 
         doctor = new Doctor();
+        doctor.setId(1L);
         doctor.setAppointments(new ArrayList<>());
         doctor.setAvailabilities(List.of(availability));
         when(doctorRepository.findById(1L)).thenReturn(Optional.of(doctor));
@@ -72,9 +73,8 @@ class AppointmentServiceTest {
     @Test
     void rejectsAppointmentsThatClashWithAnExistingSlot() {
         LocalDateTime requestedTime = availableDate.atTime(9, 0);
-        Appointment existing = new Appointment();
-        existing.setAppointmentDate(requestedTime);
-        doctor.setAppointments(List.of(existing));
+        when(appointmentRepository.existsByDoctorIdAndAppointmentDateAndIdNot(1L, requestedTime, -1L))
+                .thenReturn(true);
 
         assertThrows(
                 IllegalStateException.class,

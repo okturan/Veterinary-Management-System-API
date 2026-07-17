@@ -8,6 +8,9 @@ import java.util.List;
 import dev.patika.veterinary.entities.Vaccination;
 
 public interface VaccinationRepository extends JpaRepository<Vaccination, Long> {
+    boolean existsByAnimalIdAndVaccineIdAndNextDueDateAfterAndIdNot(long animalId, long vaccineId,
+                                                                    LocalDate date, long excludedId);
+
     List<Vaccination> findByAnimalId(long id);
 
     List<Vaccination> findByNextDueDateBetween(LocalDate startDate, LocalDate endDate);

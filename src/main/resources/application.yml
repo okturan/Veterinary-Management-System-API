@@ -9,6 +9,7 @@ spring:
     driverClassName: ${VET_DB_DRIVER:org.postgresql.Driver}
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: ${VET_DDL_AUTO:validate}
 

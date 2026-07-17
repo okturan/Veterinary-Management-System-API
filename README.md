@@ -49,7 +49,7 @@ The API starts at `http://localhost:8080/api`.
 ./mvnw --batch-mode --no-transfer-progress verify
 ```
 
-Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. Lombok and MapStruct are explicit annotation processors, so clean builds do not depend on legacy classpath scanning behavior. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
+Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. Database-backed service coverage persists real doctors, availability, animals, appointments, vaccines, and vaccinations to prove slot availability, clash rejection, self-preserving appointment updates, requested administration dates, calculated due dates, and active-vaccination rejection across the mapper, service, and repository layers. Scheduling and vaccination services own their transaction boundaries, and Open Session in View is disabled so business rules do not depend on a web request keeping persistence state open. Lombok and MapStruct are explicit annotation processors, so clean builds do not depend on legacy classpath scanning behavior. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
 
 ## Features
 - **Owner Management**: Create, update, delete, and retrieve owners of pets.
