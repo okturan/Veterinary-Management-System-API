@@ -8,7 +8,7 @@ Spring Boot REST API for managing a veterinary clinic's owners, animals, doctors
 
 ## Project status
 
-This is a working local API showcase with an ER diagram and Postman collection; no public deployment is currently verified. GitHub Actions runs the Spring context plus appointment scheduling tests on Java 17 using an isolated in-memory test database.
+This is a working local API showcase with an ER diagram and Postman collection; no public deployment is currently verified. GitHub Actions verifies the Java 17 target on both the target JDK and the current JDK toolchain using an isolated in-memory test database.
 
 ## Getting Started
 
@@ -49,7 +49,7 @@ The API starts at `http://localhost:8080/api`.
 ./mvnw --batch-mode --no-transfer-progress verify
 ```
 
-Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
+Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. Lombok and MapStruct are explicit annotation processors, so clean builds do not depend on legacy classpath scanning behavior. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
 
 ## Features
 - **Owner Management**: Create, update, delete, and retrieve owners of pets.
