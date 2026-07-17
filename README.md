@@ -41,7 +41,7 @@ For a new disposable local database only, set `VET_DDL_AUTO=create` before the f
 ./mvnw spring-boot:run
 ```
 
-The API starts at `http://localhost:8080/api`.
+The API starts at `http://localhost:8080/api`. Its generated [Swagger UI](http://localhost:8080/swagger-ui.html) and machine-readable [OpenAPI JSON](http://localhost:8080/v3/api-docs) describe the running application. The checked-in [`docs/openapi.json`](./docs/openapi.json) makes the same contract inspectable without starting the service.
 
 ## Verification
 
@@ -49,7 +49,9 @@ The API starts at `http://localhost:8080/api`.
 ./mvnw --batch-mode --no-transfer-progress verify
 ```
 
-Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. Database-backed service coverage persists real doctors, availability, animals, appointments, vaccines, and vaccinations to prove slot availability, clash rejection, self-preserving appointment updates, requested administration dates, calculated due dates, and active-vaccination rejection across the mapper, service, and repository layers. Scheduling and vaccination services own their transaction boundaries, and Open Session in View is disabled so business rules do not depend on a web request keeping persistence state open. Lombok and MapStruct are explicit annotation processors, so clean builds do not depend on legacy classpath scanning behavior. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
+Tests use the `test` profile and an in-memory H2 database; they do not require or modify the configured PostgreSQL instance. Database-backed service coverage persists real doctors, availability, animals, appointments, vaccines, and vaccinations to prove slot availability, clash rejection, self-preserving appointment updates, requested administration dates, calculated due dates, and active-vaccination rejection across the mapper, service, and repository layers. Contract coverage exercises the generated OpenAPI endpoint, checks representative scheduling and ownership paths, verifies the Swagger UI entry point, and fails if the checked-in contract drifts. Scheduling and vaccination services own their transaction boundaries, and Open Session in View is disabled so business rules do not depend on a web request keeping persistence state open. Lombok and MapStruct are explicit annotation processors, so clean builds do not depend on legacy classpath scanning behavior. The tracked [Postman collection](./Veterinary%20Management%20System%20API.postman_collection.json) supports manual endpoint exploration.
+
+After an intentional endpoint or schema change, refresh the checked contract with `./mvnw --batch-mode --no-transfer-progress -Dopenapi.update=true test`, review the diff, and rerun `verify`.
 
 ## Features
 - **Owner Management**: Create, update, delete, and retrieve owners of pets.
