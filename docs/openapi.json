@@ -1163,80 +1163,9 @@
             "type" : "string"
           },
           "efficacyPeriod" : {
-            "type" : "object",
-            "properties" : {
-              "years" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "months" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "days" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "zero" : {
-                "type" : "boolean"
-              },
-              "negative" : {
-                "type" : "boolean"
-              },
-              "units" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "durationEstimated" : {
-                      "type" : "boolean"
-                    },
-                    "duration" : {
-                      "type" : "object",
-                      "properties" : {
-                        "seconds" : {
-                          "type" : "integer",
-                          "format" : "int64"
-                        },
-                        "zero" : {
-                          "type" : "boolean"
-                        },
-                        "nano" : {
-                          "type" : "integer",
-                          "format" : "int32"
-                        },
-                        "negative" : {
-                          "type" : "boolean"
-                        },
-                        "positive" : {
-                          "type" : "boolean"
-                        }
-                      }
-                    },
-                    "timeBased" : {
-                      "type" : "boolean"
-                    },
-                    "dateBased" : {
-                      "type" : "boolean"
-                    }
-                  }
-                }
-              },
-              "chronology" : {
-                "type" : "object",
-                "properties" : {
-                  "id" : {
-                    "type" : "string"
-                  },
-                  "calendarType" : {
-                    "type" : "string"
-                  },
-                  "isoBased" : {
-                    "type" : "boolean"
-                  }
-                }
-              }
-            }
+            "type" : "string",
+            "description" : "ISO-8601 period until the next dose is due",
+            "example" : "P1Y"
           }
         }
       },
@@ -1254,80 +1183,9 @@
             "type" : "string"
           },
           "efficacyPeriod" : {
-            "type" : "object",
-            "properties" : {
-              "years" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "months" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "days" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "zero" : {
-                "type" : "boolean"
-              },
-              "negative" : {
-                "type" : "boolean"
-              },
-              "units" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "durationEstimated" : {
-                      "type" : "boolean"
-                    },
-                    "duration" : {
-                      "type" : "object",
-                      "properties" : {
-                        "seconds" : {
-                          "type" : "integer",
-                          "format" : "int64"
-                        },
-                        "zero" : {
-                          "type" : "boolean"
-                        },
-                        "nano" : {
-                          "type" : "integer",
-                          "format" : "int32"
-                        },
-                        "negative" : {
-                          "type" : "boolean"
-                        },
-                        "positive" : {
-                          "type" : "boolean"
-                        }
-                      }
-                    },
-                    "timeBased" : {
-                      "type" : "boolean"
-                    },
-                    "dateBased" : {
-                      "type" : "boolean"
-                    }
-                  }
-                }
-              },
-              "chronology" : {
-                "type" : "object",
-                "properties" : {
-                  "id" : {
-                    "type" : "string"
-                  },
-                  "calendarType" : {
-                    "type" : "string"
-                  },
-                  "isoBased" : {
-                    "type" : "boolean"
-                  }
-                }
-              }
-            }
+            "type" : "string",
+            "description" : "ISO-8601 period until the next dose is due",
+            "example" : "P1Y"
           }
         }
       },
@@ -1830,80 +1688,9 @@
             "type" : "string"
           },
           "efficacyPeriod" : {
-            "type" : "object",
-            "properties" : {
-              "years" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "months" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "days" : {
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "zero" : {
-                "type" : "boolean"
-              },
-              "negative" : {
-                "type" : "boolean"
-              },
-              "units" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "durationEstimated" : {
-                      "type" : "boolean"
-                    },
-                    "duration" : {
-                      "type" : "object",
-                      "properties" : {
-                        "seconds" : {
-                          "type" : "integer",
-                          "format" : "int64"
-                        },
-                        "zero" : {
-                          "type" : "boolean"
-                        },
-                        "nano" : {
-                          "type" : "integer",
-                          "format" : "int32"
-                        },
-                        "negative" : {
-                          "type" : "boolean"
-                        },
-                        "positive" : {
-                          "type" : "boolean"
-                        }
-                      }
-                    },
-                    "timeBased" : {
-                      "type" : "boolean"
-                    },
-                    "dateBased" : {
-                      "type" : "boolean"
-                    }
-                  }
-                }
-              },
-              "chronology" : {
-                "type" : "object",
-                "properties" : {
-                  "id" : {
-                    "type" : "string"
-                  },
-                  "calendarType" : {
-                    "type" : "string"
-                  },
-                  "isoBased" : {
-                    "type" : "boolean"
-                  }
-                }
-              }
-            }
+            "type" : "string",
+            "description" : "ISO-8601 period until the next dose is due",
+            "example" : "P1Y"
           },
           "vaccinations" : {
             "type" : "array",

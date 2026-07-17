@@ -44,6 +44,8 @@ class OpenApiContractTest {
         assertThat(generated.path("paths").has("/api/appointments")).isTrue();
         assertThat(generated.path("paths").has("/api/vaccinations/expiring")).isTrue();
         assertThat(generated.path("paths").has("/api/owners/{id}/animals")).isTrue();
+        assertThat(generated.at("/components/schemas/VaccineRequestDto/properties/efficacyPeriod/type").asText())
+                .isEqualTo("string");
 
         if (Boolean.getBoolean("openapi.update")) {
             Files.createDirectories(CHECKED_CONTRACT.getParent());

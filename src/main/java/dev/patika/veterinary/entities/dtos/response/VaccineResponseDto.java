@@ -2,6 +2,7 @@ package dev.patika.veterinary.entities.dtos.response;
 
 import java.time.Period;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +12,6 @@ public class VaccineResponseDto {
     private long id;
     private String name;
     private String code;
+    @Schema(type = "string", example = "P1Y", description = "ISO-8601 period until the next dose is due")
     private Period efficacyPeriod;
 }

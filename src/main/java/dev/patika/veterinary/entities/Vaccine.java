@@ -1,6 +1,8 @@
 package dev.patika.veterinary.entities;
 
 import java.time.Period;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +33,7 @@ public class Vaccine {
     private String code;
 
     @NotNull
+    @Schema(type = "string", example = "P1Y", description = "ISO-8601 period until the next dose is due")
     private Period efficacyPeriod;
 
     @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, orphanRemoval = true)
