@@ -6,6 +6,8 @@
 
 Spring Boot REST API for managing a veterinary clinic's owners, animals, doctors, availability, appointments, vaccines, and vaccination schedules. The service enforces on-the-hour appointment slots, doctor availability, clash prevention, and active-vaccination rules.
 
+![Swagger UI showing the Veterinary Management API resource groups](docs/screenshots/swagger-overview.png)
+
 ## Project status
 
 This is a working local API showcase with an ER diagram and Postman collection; no public deployment is currently verified. GitHub Actions verifies the Java 17 target on both the target JDK and the current JDK toolchain using an isolated in-memory test database.
@@ -42,6 +44,20 @@ For a new disposable local database only, set `VET_DDL_AUTO=create` before the f
 ```
 
 The API starts at `http://localhost:8080/api`. Its generated [Swagger UI](http://localhost:8080/swagger-ui.html) and machine-readable [OpenAPI JSON](http://localhost:8080/v3/api-docs) describe the running application. The checked-in [`docs/openapi.json`](./docs/openapi.json) makes the same contract inspectable without starting the service.
+
+### Privacy-safe local walkthrough
+
+For an isolated portfolio demonstration, start the application with synthetic records and an ephemeral in-memory database:
+
+```sh
+./scripts/run-local-demo.sh
+```
+
+Then open [Swagger UI](http://localhost:8080/swagger-ui.html). The demo never connects to the configured PostgreSQL database, uses only invented clinic records, and is erased when the process stops. It intentionally uses the test-scoped H2 driver and is not a production deployment profile.
+
+![Swagger UI returning a synthetic owner and nested animal with HTTP 200](docs/screenshots/owners-response.png)
+
+The checked walkthrough exercises the real application boundary: owner detail, collection, and name-filter responses are integration-tested with Open Session in View disabled, including their nested animals. This prevents README proof from masking lazy-loading failures that would otherwise appear only at serialization time.
 
 ## Verification
 
