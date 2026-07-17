@@ -1,6 +1,7 @@
 package dev.patika.veterinary.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,17 +17,20 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final OwnerMapper ownerMapper;
     private final AnimalService animalService;
 
+    @Transactional
     public OwnerResponseDto save(Owner owner) {
         Owner savedOwner = ownerRepository.save(owner);
         return ownerMapper.ownerToOwnerResponseDto(savedOwner);
     }
 
+    @Transactional
     public AnimalResponseDto addAnimalToOwner(long ownerId, Animal animal) {
         Owner owner = ownerRepository.findById(ownerId)
                                      .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + ownerId));
@@ -53,6 +57,7 @@ public class OwnerService {
                               .toList();
     }
 
+    @Transactional
     public OwnerResponseDto update(long id, OwnerRequestDto ownerRequestDto) {
         Owner owner = ownerRepository.findById(id)
                                      .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + id));
@@ -60,6 +65,7 @@ public class OwnerService {
         return ownerMapper.ownerToOwnerResponseDto(ownerRepository.save(mergedOwner));
     }
 
+    @Transactional
     public void deleteById(long id) {
         ownerRepository.findById(id)
                        .orElseThrow(() -> new EntityNotFoundException("Owner not found with id: " + id));
